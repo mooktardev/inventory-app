@@ -9,6 +9,25 @@
   </div>
 </div>
 
+<section class="stats-grid">
+  <div class="stat-card">
+    <p class="stat-label">Categories</p>
+    <p class="stat-value"><%= stats.category_count %></p>
+  </div>
+  <div class="stat-card stat-card--primary">
+    <p class="stat-label">Total Items</p>
+    <p class="stat-value"><%= stats.item_count %></p>
+  </div>
+  <div class="stat-card stat-card--accent">
+    <p class="stat-label">Inventory Value</p>
+    <p class="stat-value">$<%= Number(stats.total_value).toFixed(2) %></p>
+  </div>
+  <div class="stat-card stat-card--warning">
+    <p class="stat-label">Low Stock</p>
+    <p class="stat-value"><%= stats.low_stock_count %></p>
+  </div>
+</section>
+
 <section class="grid-2">
   <div class="card">
     <div class="card-header">

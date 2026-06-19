@@ -24,10 +24,19 @@ exports.index = async (req, res, next) => {
        LIMIT 10`
     );
 
+    const { rows: [stats] } = await pool.query(
+      `SELECT
+         (SELECT COUNT(*)::int FROM category) AS category_count,
+         (SELECT COUNT(*)::int FROM item) AS item_count,
+         COALESCE((SELECT SUM(price * quantity) FROM item), 0) AS total_value,
+         (SELECT COUNT(*)::int FROM item WHERE quantity < 10) AS low_stock_count`
+    );
+
     res.render("index", {
-      title: "Inventory Dashboard",
+      title: "Dashboard",
       categories,
       recentItems,
+      stats,
     });
   } catch (err) {
     next(err);
