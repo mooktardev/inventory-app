@@ -1,0 +1,100 @@
+<div class="page-header">
+  <div>
+    <nav class="breadcrumb">
+      <a href="/items">Items</a>
+      <span>/</span>
+      <span><%= item.id ? 'Edit' : 'New' %></span>
+    </nav>
+    <h1><%= title %></h1>
+  </div>
+</div>
+
+<div class="card form-card">
+  <% if (errors.length > 0) { %>
+    <div class="alert alert-error">
+      <ul>
+        <% errors.forEach(function(err) { %>
+          <li><%= err.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="<%= action %>" method="<%= method %>">
+    <div class="form-group">
+      <label for="name">Name <span class="required">*</span></label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="<%= item.name || '' %>"
+        required
+        maxlength="200"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4"><%= item.description || '' %></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">Price ($) <span class="required">*</span></label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          value="<%= item.price != null ? item.price : '' %>"
+          min="0"
+          step="0.01"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity <span class="required">*</span></label>
+        <input
+          type="number"
+          id="quantity"
+          name="quantity"
+          value="<%= item.quantity != null ? item.quantity : '0' %>"
+          min="0"
+          step="1"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="category_id">Category <span class="required">*</span></label>
+      <select id="category_id" name="category_id" required>
+        <option value="">Select a category</option>
+        <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id %>" <%= String(item.category_id) === String(cat.id) ? 'selected' : '' %>>
+            <%= cat.name %>
+          </option>
+        <% }); %>
+      </select>
+    </div>
+
+    <% if (requirePassword) { %>
+      <div class="form-group admin-password-group">
+        <label for="admin_password">Admin Password <span class="required">*</span></label>
+        <input
+          type="password"
+          id="admin_password"
+          name="admin_password"
+          placeholder="Enter admin password to confirm"
+          required
+        />
+        <small class="form-hint">Required to update this item.</small>
+      </div>
+    <% } %>
+
+    <div class="form-actions">
+      <a href="<%= item.id ? '/items/' + item.id : '/items' %>" class="btn btn-ghost">Cancel</a>
+      <button type="submit" class="btn btn-primary"><%= submitLabel %></button>
+    </div>
+  </form>
+</div>

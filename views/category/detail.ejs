@@ -1,0 +1,74 @@
+<div class="page-header">
+  <div>
+    <nav class="breadcrumb">
+      <a href="/categories">Categories</a>
+      <span>/</span>
+      <span><%= category.name %></span>
+    </nav>
+    <h1><%= category.name %></h1>
+    <% if (category.description) { %>
+      <p class="subtitle"><%= category.description %></p>
+    <% } %>
+  </div>
+  <div class="header-actions">
+    <a href="/categories/<%= category.id %>/update" class="btn btn-secondary">Edit Category</a>
+    <a href="/items/create?category_id=<%= category.id %>" class="btn btn-primary">+ Add Item</a>
+  </div>
+</div>
+
+<div class="card danger-zone">
+  <h3>Delete Category</h3>
+  <p>Categories with items cannot be deleted. Remove or reassign all items first.</p>
+  <form action="/categories/<%= category.id %>/delete" method="POST" class="inline-form">
+    <label class="sr-only" for="admin_password_delete_cat">Admin password</label>
+    <input
+      type="password"
+      id="admin_password_delete_cat"
+      name="admin_password"
+      placeholder="Admin password"
+      required
+    />
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this category?')">
+      Delete Category
+    </button>
+  </form>
+</div>
+
+<h2 class="section-title">Items in this category (<%= items.length %>)</h2>
+
+<% if (items.length === 0) { %>
+  <div class="card empty-card">
+    <p>No items in this category yet.</p>
+    <a href="/items/create?category_id=<%= category.id %>" class="btn btn-primary">Add an item</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap card">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(function(item) { %>
+          <tr>
+            <td><a href="/items/<%= item.id %>" class="table-link"><%= item.name %></a></td>
+            <td>$<%= Number(item.price).toFixed(2) %></td>
+            <td>
+              <span class="badge <%= item.quantity < 10 ? 'badge-warning' : '' %>">
+                <%= item.quantity %>
+              </span>
+            </td>
+            <td class="actions">
+              <a href="/items/<%= item.id %>" class="btn btn-sm btn-ghost">View</a>
+              <a href="/items/<%= item.id %>/update" class="btn btn-sm btn-ghost">Edit</a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+<% } %>

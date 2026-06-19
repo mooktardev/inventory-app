@@ -1,0 +1,46 @@
+<div class="page-header">
+  <div>
+    <h1>All Items</h1>
+    <p class="subtitle"><%= items.length %> item<%= items.length === 1 ? '' : 's' %> in inventory</p>
+  </div>
+  <a href="/items/create" class="btn btn-primary">+ New Item</a>
+</div>
+
+<% if (items.length === 0) { %>
+  <div class="card empty-card">
+    <p>No items found.</p>
+    <a href="/items/create" class="btn btn-primary">Add your first item</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap card">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach(function(item) { %>
+          <tr>
+            <td><a href="/items/<%= item.id %>" class="table-link"><%= item.name %></a></td>
+            <td><a href="/categories/<%= item.category_id %>" class="link"><%= item.category_name %></a></td>
+            <td>$<%= Number(item.price).toFixed(2) %></td>
+            <td>
+              <span class="badge <%= item.quantity < 10 ? 'badge-warning' : '' %>">
+                <%= item.quantity %>
+              </span>
+            </td>
+            <td class="actions">
+              <a href="/items/<%= item.id %>" class="btn btn-sm btn-ghost">View</a>
+              <a href="/items/<%= item.id %>/update" class="btn btn-sm btn-ghost">Edit</a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+<% } %>

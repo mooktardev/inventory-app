@@ -1,0 +1,57 @@
+<div class="page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p class="subtitle">Overview of your inventory</p>
+  </div>
+  <div class="header-actions">
+    <a href="/categories/create" class="btn btn-secondary">+ Category</a>
+    <a href="/items/create" class="btn btn-primary">+ Item</a>
+  </div>
+</div>
+
+<section class="grid-2">
+  <div class="card">
+    <div class="card-header">
+      <h2>Categories</h2>
+      <a href="/categories" class="link">View all</a>
+    </div>
+    <% if (categories.length === 0) { %>
+      <p class="empty-state">No categories yet. <a href="/categories/create">Create one</a>.</p>
+    <% } else { %>
+      <ul class="list">
+        <% categories.forEach(function(cat) { %>
+          <li>
+            <a href="/categories/<%= cat.id %>" class="list-link">
+              <span><%= cat.name %></span>
+              <span class="badge"><%= cat.item_count %> items</span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Recently Updated</h2>
+      <a href="/items" class="link">View all items</a>
+    </div>
+    <% if (recentItems.length === 0) { %>
+      <p class="empty-state">No items yet. <a href="/items/create">Add an item</a>.</p>
+    <% } else { %>
+      <ul class="list">
+        <% recentItems.forEach(function(item) { %>
+          <li>
+            <a href="/items/<%= item.id %>" class="list-link">
+              <span>
+                <strong><%= item.name %></strong>
+                <small class="text-muted"><%= item.category_name %></small>
+              </span>
+              <span class="badge badge-accent">$<%= Number(item.price).toFixed(2) %></span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+  </div>
+</section>

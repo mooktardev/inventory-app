@@ -1,0 +1,40 @@
+<div class="page-header">
+  <div>
+    <h1>Categories</h1>
+    <p class="subtitle"><%= categories.length %> categor<%= categories.length === 1 ? 'y' : 'ies' %></p>
+  </div>
+  <a href="/categories/create" class="btn btn-primary">+ New Category</a>
+</div>
+
+<% if (categories.length === 0) { %>
+  <div class="card empty-card">
+    <p>No categories found.</p>
+    <a href="/categories/create" class="btn btn-primary">Create your first category</a>
+  </div>
+<% } else { %>
+  <div class="table-wrap card">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Items</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% categories.forEach(function(cat) { %>
+          <tr>
+            <td><a href="/categories/<%= cat.id %>" class="table-link"><%= cat.name %></a></td>
+            <td class="text-muted"><%= cat.description || '—' %></td>
+            <td><span class="badge"><%= cat.item_count %></span></td>
+            <td class="actions">
+              <a href="/categories/<%= cat.id %>" class="btn btn-sm btn-ghost">View</a>
+              <a href="/categories/<%= cat.id %>/update" class="btn btn-sm btn-ghost">Edit</a>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+<% } %>

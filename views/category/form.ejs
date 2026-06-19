@@ -1,0 +1,60 @@
+<div class="page-header">
+  <div>
+    <nav class="breadcrumb">
+      <a href="/categories">Categories</a>
+      <span>/</span>
+      <span><%= category.id ? 'Edit' : 'New' %></span>
+    </nav>
+    <h1><%= title %></h1>
+  </div>
+</div>
+
+<div class="card form-card">
+  <% if (errors.length > 0) { %>
+    <div class="alert alert-error">
+      <ul>
+        <% errors.forEach(function(err) { %>
+          <li><%= err.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form action="<%= action %>" method="<%= method %>">
+    <div class="form-group">
+      <label for="name">Name <span class="required">*</span></label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="<%= category.name || '' %>"
+        required
+        maxlength="100"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4"><%= category.description || '' %></textarea>
+    </div>
+
+    <% if (requirePassword) { %>
+      <div class="form-group admin-password-group">
+        <label for="admin_password">Admin Password <span class="required">*</span></label>
+        <input
+          type="password"
+          id="admin_password"
+          name="admin_password"
+          placeholder="Enter admin password to confirm"
+          required
+        />
+        <small class="form-hint">Required to update or delete this category.</small>
+      </div>
+    <% } %>
+
+    <div class="form-actions">
+      <a href="<%= category.id ? '/categories/' + category.id : '/categories' %>" class="btn btn-ghost">Cancel</a>
+      <button type="submit" class="btn btn-primary"><%= submitLabel %></button>
+    </div>
+  </form>
+</div>

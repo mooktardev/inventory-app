@@ -1,0 +1,66 @@
+<div class="page-header">
+  <div>
+    <nav class="breadcrumb">
+      <a href="/items">Items</a>
+      <span>/</span>
+      <span><%= item.name %></span>
+    </nav>
+    <h1><%= item.name %></h1>
+    <p class="subtitle">
+      in <a href="/categories/<%= item.category_id %>" class="link"><%= item.category_name %></a>
+    </p>
+  </div>
+  <a href="/items/<%= item.id %>/update" class="btn btn-primary">Edit Item</a>
+</div>
+
+<div class="grid-2">
+  <div class="card detail-card">
+    <h2>Details</h2>
+    <dl class="detail-list">
+      <div>
+        <dt>Description</dt>
+        <dd><%= item.description || 'No description provided.' %></dd>
+      </div>
+      <div>
+        <dt>Price</dt>
+        <dd class="price">$<%= Number(item.price).toFixed(2) %></dd>
+      </div>
+      <div>
+        <dt>Quantity in Stock</dt>
+        <dd>
+          <span class="badge <%= item.quantity < 10 ? 'badge-warning' : 'badge-accent' %>">
+            <%= item.quantity %>
+          </span>
+          <% if (item.quantity < 10) { %>
+            <small class="text-warning">Low stock</small>
+          <% } %>
+        </dd>
+      </div>
+      <div>
+        <dt>Last Updated</dt>
+        <dd><%= new Date(item.updated_at).toLocaleString() %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card danger-zone">
+    <h3>Delete Item</h3>
+    <p>This action is permanent and requires the admin password.</p>
+    <form action="/items/<%= item.id %>/delete" method="POST">
+      <input type="hidden" name="redirect_to" value="items" />
+      <div class="form-group">
+        <label for="admin_password_delete">Admin Password</label>
+        <input
+          type="password"
+          id="admin_password_delete"
+          name="admin_password"
+          placeholder="Enter admin password"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-danger" onclick="return confirm('Permanently delete this item?')">
+        Delete Item
+      </button>
+    </form>
+  </div>
+</div>
